@@ -102,16 +102,36 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.filter input {
+    margin: 15px 0px;
+    padding: 4px 0px;
+}
+.filter button {
+    padding: 7px 20px;
+}
+label input , label select{
+    margin-left: 10px;
+}
 .modal-content {
     background: white;
     width: 40%;
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
+    width: 400px;
+    height: 300px;
 }
 
 .close {
     float: right;
     font-size: 20px;
     cursor: pointer;
+    position: relative;
+    right: -12px;
+    top: -19px;
+}
+
+label {
+    display: flex;
+    margin: 10px 10px;
 }

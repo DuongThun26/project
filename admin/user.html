@@ -55,6 +55,8 @@
 
     <!-- Nút thêm người dùng -->
     <button class="add-user-btn" onclick="openAddUserForm()">Thêm người dùng mới</button>
+    <input type="file" id="csvFileInput" accept=".csv">
+    <button onclick="importCSV()" class="btnNhap">Nhập từ CSV</button>
 
     <!-- Form thêm người dùng -->
     <div id="addUserForm" class="modal">
@@ -72,10 +74,30 @@
         </div>
     </div>
     <script>
-        let users = [
-            { id: 1, name: "Nguyễn Văn A", email: "a@gmail.com", role: "Học sinh", username: "a@gmail.com", password: "123456" },
-            { id: 2, name: "Trần Thị B", email: "b@gmail.com", role: "Giáo viên", username: "b@gmail.com", password: "123456" },
-            { id: 3, name: "Lê Văn C", email: "c@gmail.com", role: "Admin", username: "c@gmail.com", password: "123456" }
+        let users = [{
+                id: 1,
+                name: "Nguyễn Văn A",
+                email: "a@gmail.com",
+                role: "Học sinh",
+                username: "a@gmail.com",
+                password: "123456"
+            },
+            {
+                id: 2,
+                name: "Trần Thị B",
+                email: "b@gmail.com",
+                role: "Giáo viên",
+                username: "b@gmail.com",
+                password: "123456"
+            },
+            {
+                id: 3,
+                name: "Lê Văn C",
+                email: "c@gmail.com",
+                role: "Admin",
+                username: "c@gmail.com",
+                password: "123456"
+            }
         ];
 
         function displayUsers() {
@@ -100,7 +122,7 @@
                 user.name.toLowerCase().includes(searchValue) ||
                 user.email.toLowerCase().includes(searchValue)
             );
-            
+
             let table = document.getElementById("userTable");
             table.innerHTML = "";
             filteredUsers.forEach(user => {
@@ -128,7 +150,7 @@
             let name = document.getElementById("userName").value;
             let email = document.getElementById("userEmail").value;
             let role = document.getElementById("userRole").value;
-            
+
             if (name && email) {
                 users.push({
                     id: users.length + 1,
@@ -157,6 +179,50 @@
                 }
             });
         });
+
+        function importCSV() {
+            let fileInput = document.getElementById("csvFileInput");
+            let file = fileInput.files[0];
+
+            if (!file) {
+                alert("Vui lòng chọn một file CSV!");
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                let text = event.target.result;
+                let rows = text.split("\n");
+
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Bỏ qua dòng tiêu đề
+
+                    let columns = row.split(",");
+                    if (columns.length < 3) return; // Bỏ qua nếu không đủ dữ liệu
+
+                    let name = columns[0].trim();
+                    let email = columns[1].trim();
+                    let role = columns[2].trim();
+
+                    if (name && email && role) {
+                        users.push({
+                            id: users.length + 1,
+                            name,
+                            email,
+                            role,
+                            username: email,
+                            password: "123456" // Mật khẩu mặc định
+                        });
+                    }
+                });
+
+                displayUsers();
+                alert("Nhập dữ liệu thành công!");
+            };
+
+            reader.readAsText(file);
+        }
     </script>
 </body>
+
 </html>

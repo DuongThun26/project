@@ -63,23 +63,16 @@
             <span class="close">&times;</span>
             <h2 id="formTitle">Chỉnh Sửa Giáo Viên</h2>
             <input type="hidden" id="teacherId">
-            <label>Tên:</label>
-            <input type="text" id="teacherName">
-            <label>Họ đệm:</label>
-            <input type="text" id="teacherSurname">
-            <label>Ngày sinh:</label>
-            <input type="date" id="teacherDob">
-            <label>Giới tính:</label>
-            <select id="teacherGender">
+            <label>Tên: <input type="text" id="teacherName"></label>
+            <label>Họ đệm: <input type="text" id="teacherSurname"></label>
+            <label>Ngày sinh: <input type="date" id="teacherDob"></label>
+            <label>Giới tính: <select id="teacherGender">
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>
-            </select>
-            <label>Chuyên môn:</label>
-            <input type="text" id="teacherSubject">
-            <label>Email:</label>
-            <input type="email" id="teacherEmail">
-            <label>Số điện thoại:</label>
-            <input type="text" id="teacherPhone">
+            </select></label>
+            <label>Chuyên môn: <input type="text" id="teacherSubject"></label>       
+            <label>Email: <input type="email" id="teacherEmail"></label>
+            <label>Số điện thoại: <input type="text" id="teacherPhone"></label>
             <button id="saveTeacherBtn">Lưu</button>
         </div>
     </div>
@@ -145,6 +138,14 @@
             document.getElementById("teacherEmail").value = teacher.email;
             document.getElementById("teacherPhone").value = teacher.phone;
         }
+
+        document.querySelector(".close").addEventListener("click", function () {
+            document.getElementById("teacherFormContainer").style.display = "none";
+        });
+
+        document.getElementById("saveTeacherBtn").addEventListener("click", function () {
+            document.getElementById("teacherFormContainer").style.display = "none";
+        });
 
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);

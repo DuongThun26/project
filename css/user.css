@@ -75,6 +75,7 @@ nav ul li a {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 6px;
 }
 
 /* Bảng danh sách */
@@ -133,4 +134,11 @@ th, td {
     padding: 10px;
     border: none;
     cursor: pointer;
+}
+.btnNhap {
+    background-color: blue;
+    color: white;
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
 }

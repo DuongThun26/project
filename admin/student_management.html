@@ -63,23 +63,16 @@
             <span class="close">&times;</span>
             <h2 id="formTitle">Chỉnh Sửa Học Sinh</h2>
             <input type="hidden" id="studentId">
-            <label>Tên:</label>
-            <input type="text" id="studentName">
-            <label>Họ đệm:</label>
-            <input type="text" id="studentSurname">
-            <label>Ngày sinh:</label>
-            <input type="date" id="studentDob">
-            <label>Giới tính:</label>
-            <select id="studentGender">
+            <label>Tên: <input type="text" id="studentName"></label>
+            <label>Họ đệm: <input type="text" id="studentSurname"></label>
+            <label>Ngày sinh: <input type="date" id="studentDob"></label>
+            <label>Giới tính: <select id="studentGender">
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>
-            </select>
-            <label>Lớp:</label>
-            <input type="text" id="studentClass">
-            <label>Email:</label>
-            <input type="email" id="studentEmail">
-            <label>Địa chỉ:</label>
-            <input type="text" id="studentAddress">
+            </select></label>
+            <label>Lớp: <input type="text" id="studentClass"></label>
+            <label>Email: <input type="email" id="studentEmail"></label>
+            <label>Địa chỉ: <input type="text" id="studentAddress"></label>
             <button id="saveStudentBtn">Lưu</button>
         </div>
     </div>
@@ -145,6 +138,14 @@
             document.getElementById("studentEmail").value = student.email;
             document.getElementById("studentAddress").value = student.address;
         }
+
+        document.querySelector(".close").addEventListener("click", function () {
+            document.getElementById("studentFormContainer").style.display = "none";
+        });
+
+        document.getElementById("saveStudentBtn").addEventListener("click", function () {
+            document.getElementById("studentFormContainer").style.display = "none";
+        });
 
         function deleteStudent(id) {
             students = students.filter(s => s.id !== id);

@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch Giảng Dạy</title>
     <link rel="stylesheet" href="../css/schedule.css">
-    <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
-    <!-- Header -->
     <header>
         <div class="logo">
             <img src="../image/logo.png" alt="Logo Trường">
         </div>
-        <div class="school-name">
-            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
-        </div>
+        <h1 class="school-name">TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
         <button class="logout">Đăng Xuất</button>
     </header>
-
-    <!-- Menu -->
+    
     <nav>
         <ul>
             <li><a href="homeTeacher.html">Trang Chủ</a></li>
@@ -30,190 +23,95 @@
             <li><a href="teacher_profile.html">Thông Tin</a></li>
         </ul>
     </nav>
-    <!-- Chọn học kỳ và tuần -->
+
     <div class="filters">
-        <button class="semester-btn">HỌC KỲ</button>
-        <input type="text" id="week-input" placeholder="Tuần: ....">
+        <select id="semesterSelect">
+            <option value="1">Học kỳ 1</option>
+            <option value="2">Học kỳ 2</option>
+        </select>
+        <select id="weekSelect"></select>
+        <button onclick="loadSchedule()">Xem lịch</button>
     </div>
 
-    <!-- Bảng thời khóa biểu -->
-    <main class="schedule-container">
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Thời Gian</th>
-                    <th>Thứ 2</th>
-                    <th>Thứ 3</th>
-                    <th>Thứ 4</th>
-                    <th>Thứ 5</th>
-                    <th>Thứ 6</th>
-                    <th>Thứ 7</th>
-                    <th>Chủ Nhật</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Tiết 1</td>
-                    <td id="mon1"></td>
-                    <td id="tue1"></td>
-                    <td id="wed1"></td>
-                    <td id="thu1"></td>
-                    <td id="fri1"></td>
-                    <td id="sat1"></td>
-                    <td id="sun1"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 2</td>
-                    <td id="mon2"></td>
-                    <td id="tue2"></td>
-                    <td id="wed2"></td>
-                    <td id="thu2"></td>
-                    <td id="fri2"></td>
-                    <td id="sat2"></td>
-                    <td id="sun2"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 3</td>
-                    <td id="mon3"></td>
-                    <td id="tue3"></td>
-                    <td id="wed3"></td>
-                    <td id="thu3"></td>
-                    <td id="fri3"></td>
-                    <td id="sat3"></td>
-                    <td id="sun3"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 4</td>
-                    <td id="mon4"></td>
-                    <td id="tue4"></td>
-                    <td id="wed4"></td>
-                    <td id="thu4"></td>
-                    <td id="fri4"></td>
-                    <td id="sat4"></td>
-                    <td id="sun4"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 5</td>
-                    <td id="mon5"></td>
-                    <td id="tue5"></td>
-                    <td id="wed5"></td>
-                    <td id="thu5"></td>
-                    <td id="fri5"></td>
-                    <td id="sat5"></td>
-                    <td id="sun5"></td>
-                </tr>
-                <tr>
-                    <td colspan="8" class="afternoon">Buổi Chiều</td>
-                </tr>
-            </tbody>
-        </table> -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Thời Gian / Thứ</th>
-                    <th>Thứ 2</th>
-                    <th>Thứ 3</th>
-                    <th>Thứ 4</th>
-                    <th>Thứ 5</th>
-                    <th>Thứ 6</th>
-                    <th>Thứ 7</th>
-                    <th>Chủ Nhật</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Tiết 1</td>
-                    <td colspan="7"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 2</td>
-                    <td colspan="7"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 3</td>
-                    <td colspan="7"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 4</td>
-                    <td colspan="7"></td>
-                </tr>
-                <tr>
-                    <td>Tiết 5</td>
-                    <td colspan="7"></td>
-                </tr>
-                <tr>
-                    <td>Buổi Chiều</td>
-                    <td colspan="7"></td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+    <table>
+        <thead>
+            <tr>
+                <th>Tiết / Thứ</th>
+                <th>Thứ 2</th>
+                <th>Thứ 3</th>
+                <th>Thứ 4</th>
+                <th>Thứ 5</th>
+                <th>Thứ 6</th>
+                <th>Thứ 7</th>
+            </tr>
+        </thead>
+        <tbody id="scheduleTable">
+            <!-- Dữ liệu sẽ được điền vào đây -->
+        </tbody>
+    </table>
 
     <script>
         const scheduleData = {
-            "mon1": "Toán",
-            "tue1": "Lý",
-            "wed1": "Hóa",
-            "thu1": "Văn",
-            "fri1": "Anh",
-            "sat1": "Sinh",
-            "sun1": "",
-
-            "mon2": "Lịch Sử",
-            "tue2": "Địa Lý",
-            "wed2": "GDCD",
-            "thu2": "Công Nghệ",
-            "fri2": "Thể Dục",
-            "sat2": "Tin Học",
-            "sun2": "",
-
-            "mon3": "Toán",
-            "tue3": "Lý",
-            "wed3": "Hóa",
-            "thu3": "Văn",
-            "fri3": "Anh",
-            "sat3": "Sinh",
-            "sun3": "",
-
-            "mon4": "Lịch Sử",
-            "tue4": "Địa Lý",
-            "wed4": "GDCD",
-            "thu4": "Công Nghệ",
-            "fri4": "Thể Dục",
-            "sat4": "Tin Học",
-            "sun4": "",
-
-            "mon5": "Toán",
-            "tue5": "Lý",
-            "wed5": "Hóa",
-            "thu5": "Văn",
-            "fri5": "Anh",
-            "sat5": "Sinh",
-            "sun5": ""
+            "1": { // Học kỳ 1
+                "1": { // Tuần 1
+                    "mon1": "10A1", "tue1": "11B2", "wed1": "12A3", "thu1": "10A4", "fri1": "11B5", "sat1": "12C6",
+                    "mon2": "10B1", "tue2": "11A2", "wed2": "12B3", "thu2": "10B4", "fri2": "11A5", "sat2": "12C7"
+                },
+                "2": { // Tuần 2
+                    "mon1": "10C1", "tue1": "11C2", "wed1": "12D3", "thu1": "10D4", "fri1": "11D5", "sat1": "12D6",
+                    "mon2": "10A2", "tue2": "11B3", "wed2": "12C4", "thu2": "10B5", "fri2": "11A6", "sat2": "12B7"
+                }
+            },
+            "2": { // Học kỳ 2
+                "1": { // Tuần 1
+                    "mon1": "11A1", "tue1": "12B2", "wed1": "10C3", "thu1": "11D4", "fri1": "12A5", "sat1": "10B6",
+                    "mon2": "12C1", "tue2": "10A2", "wed2": "11B3", "thu2": "12D4", "fri2": "10C5", "sat2": "11D6"
+                }
+            }
         };
 
-        // Hiển thị dữ liệu lên bảng
-        document.addEventListener("DOMContentLoaded", function () {
-            for (const id in scheduleData) {
-                document.getElementById(id).innerText = scheduleData[id];
+        function populateWeeks() {
+            const weekSelect = document.getElementById("weekSelect");
+            for (let i = 1; i <= 20; i++) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.textContent = "Tuần " + i;
+                weekSelect.appendChild(option);
             }
-        });
+        }
+
+        function loadSchedule() {
+            let semester = document.getElementById("semesterSelect").value;
+            let week = document.getElementById("weekSelect").value;
+            let table = document.getElementById("scheduleTable");
+            table.innerHTML = "";
+            
+            for (let i = 1; i <= 6; i++) {
+                let row = `<tr>
+                    <td>Tiết ${i}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`mon${i}`] || ""}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`tue${i}`] || ""}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`wed${i}`] || ""}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`thu${i}`] || ""}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`fri${i}`] || ""}</td>
+                    <td>${scheduleData[semester]?.[week]?.[`sat${i}`] || ""}</td>
+                </tr>`;
+                table.innerHTML += row;
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
-            const logoutButton = document.querySelector(".logout");
+            populateWeeks();
+            loadSchedule();
+        });
 
-            logoutButton.addEventListener("click", function () {
-                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
-                if (confirmLogout) {
-                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
-                    localStorage.removeItem("userRole");
-                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
-
-                    // Chuyển hướng về trang đăng nhập
-                    window.location.href = "../user/login.html";
-                }
-            });
+        document.querySelector(".logout").addEventListener("click", function () {
+            if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userToken");
+                window.location.href = "../user/login.html";
+            }
         });
     </script>
 </body>
-
 </html>
