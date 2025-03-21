@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Thời Khóa Biểu</title>
+    <link rel="stylesheet" href="../css/addSchedule.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <button class="logout">Đăng xuất</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="homeAdmin.html">Trang chủ</a></li>
+            <li><a href="user.html">Người dùng</a></li>
+            <li><a href="addSchedule.html" class="active">Cập nhật thời khóa biểu</a></li>
+            <li><a href="news.html">Cập nhật tin tức</a></li>
+            <li><a href="student_management.html">Quản lý học sinh</a></li>
+            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="upload-section">
+            <h2>Nhập Thời Khóa Biểu từ File CSV</h2>
+            <input type="file" id="fileInput" accept=".csv">
+            <button id="uploadBtn">Cập Nhật</button>
+        </section>
+
+        <section class="preview-section">
+            <h2>Xem Trước Dữ Liệu</h2>
+            <table id="previewTable">
+                <thead>
+                    <tr>
+                        <th>Thứ</th>
+                        <th>Tiết</th>
+                        <th>Lớp</th>
+                        <th>Môn</th>
+                        <th>Giáo viên</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("uploadBtn").addEventListener("click", function () {
+            let fileInput = document.getElementById("fileInput");
+            let file = fileInput.files[0];
+
+            if (!file) {
+                alert("Vui lòng chọn một file CSV!");
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                let text = event.target.result;
+                let rows = text.split("\n");
+                let tableBody = document.querySelector("#previewTable tbody");
+                tableBody.innerHTML = "";
+
+                for (let i = 1; i < rows.length; i++) { // Bỏ qua dòng tiêu đề
+                    let columns = rows[i].split(",");
+                    if (columns.length < 5) continue; // Bỏ qua dòng lỗi
+
+                    let row = `<tr>
+                <td>${columns[0]}</td>
+                <td>${columns[1]}</td>
+                <td>${columns[2]}</td>
+                <td>${columns[3]}</td>
+                <td>${columns[4]}</td>
+            </tr>`;
+
+                    tableBody.innerHTML += row;
+                }
+            };
+
+            reader.readAsText(file);
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

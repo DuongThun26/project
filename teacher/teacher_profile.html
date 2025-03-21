@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Giáo Viên</title>
+    <link rel="stylesheet" href="../css/teacher_profile.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <div class="school-name">
+            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        </div>
+        <button class="logout">Đăng Xuất</button>
+    </header>
+
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="homeTeacher.html">Trang Chủ</a></li>
+            <li><a href="schedule.html">Lịch Giảng Dạy</a></li>
+            <li><a href="score.html">Nhập Điểm</a></li>
+            <li><a href="teacher_profile.html" class="active">Thông Tin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Thông tin giáo viên -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2>HỒ SƠ CỦA TÔI</h2>
+        </div>
+        <div class="profile-content">
+            <div class="profile-info">
+                <p><strong>Mã giáo viên:</strong> <span id="teacher-id">226</span></p>
+                <p><strong>Họ và tên:</strong> <span id="teacher-name">Dương Văn Thuận</span></p>
+                <p><strong>Ngày sinh:</strong> <span id="dob">26/06/2004</span></p>
+                <p><strong>Giới tính:</strong> <span id="gender">Nam</span></p>
+                <p><strong>Email:</strong> <span id="email">ThuanDV226.Ty2@stu.edu.vn</span></p>
+                <p><strong>Chuyên môn:</strong> <span id="subject">Toán học</span></p>
+                <label for="address">Địa chỉ:</label>
+                <input type="text" id="address" placeholder="Nhập địa chỉ">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" id="phone" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="profile-photo">
+                <img id="avatar" src="default_avatar.png" alt="Ảnh giáo viên">
+                <input type="file" id="upload" accept="image/*">
+                <button onclick="updatePhoto()">Cập nhật ảnh</button>
+                <a href="changePassword.html">Thay đổi mật khẩu</a>
+            </div>
+        </div>
+        <button class="save-btn" onclick="saveProfile()">Lưu</button>
+    </div>
+
+    <script>
+        function updatePhoto() {
+            const fileInput = document.getElementById("upload");
+            const avatar = document.getElementById("avatar");
+
+            fileInput.addEventListener("change", function () {
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        avatar.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            fileInput.click();
+        }
+
+        function saveProfile() {
+            const address = document.getElementById("address").value;
+            const phone = document.getElementById("phone").value;
+
+            if (!address || !phone) {
+                alert("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            alert("Thông tin đã được lưu thành công!");
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

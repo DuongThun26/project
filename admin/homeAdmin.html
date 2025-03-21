@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ Admin</title>
+    <link rel="stylesheet" href="../css/homeAdmin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <button class="logout">Đăng xuất</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="homeAdmin.html" class="active">Trang chủ</a></li>
+            <li><a href="user.html">Người dùng</a></li>
+            <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
+            <li><a href="news.html">Cập nhật tin tức</a></li>
+            <li><a href="student_management.html">Quản lý học sinh</a></li>
+            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+        </ul>
+    </nav>
+
+    <!-- Thống kê -->
+    <div class="stats-container">
+        <h2>THỐNG KÊ</h2>
+        <div class="stats-box">
+            <p><strong>Số lượng giáo viên:</strong> <span id="total-teachers">...</span></p>
+            <p><strong>Số lượng học sinh:</strong> <span id="total-students">...</span></p>
+        </div>
+    </div>
+
+    <!-- Biểu đồ -->
+    <div class="chart-container">
+        <canvas id="studentChart"></canvas>
+        <p class="chart-label">BIỂU ĐỒ: THỐNG KÊ SỐ LƯỢNG HỌC SINH THEO KHỐI</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Giả lập dữ liệu thống kê
+            const totalTeachers = 50;
+            const totalStudents = 500;
+
+            // Hiển thị số liệu
+            document.getElementById("total-teachers").innerText = totalTeachers;
+            document.getElementById("total-students").innerText = totalStudents;
+
+            // Dữ liệu học sinh theo khối
+            const ctx = document.getElementById("studentChart").getContext("2d");
+            const studentChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Khối 10", "Khối 11", "Khối 12"],
+                    datasets: [{
+                        label: "Số lượng học sinh",
+                        data: [180, 200, 120],
+                        backgroundColor: ["#3498db", "#2980b9", "#1f618d"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

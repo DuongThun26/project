@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập Điểm</title>
+    <link rel="stylesheet" href="../css/score.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <div class="school-name">
+            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        </div>
+        <button class="logout">Đăng Xuất</button>
+    </header>
+
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="homeTeacher.html">Trang Chủ</a></li>
+            <li><a href="schedule.html">Lịch Giảng Dạy</a></li>
+            <li><a href="score.html" class="active">Nhập Điểm</a></li>
+            <li><a href="teacher_profile.html">Thông Tin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Chọn lớp -->
+    <div class="class-selection">
+        <label for="class-list" class="class-label">DANH SÁCH LỚP</label>
+        <select id="class-list" onchange="loadStudents()">
+            <option value="">Chọn lớp...</option>
+            <option value="10A1">Lớp 10A1</option>
+            <option value="10A2">Lớp 10A2</option>
+            <option value="11B1">Lớp 11B1</option>
+            <option value="12C1">Lớp 12C1</option>
+        </select>
+    </div>
+
+    <!-- Bảng nhập điểm -->
+    <main class="grades-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>MÃ</th>
+                    <th>HỌ VÀ TÊN</th>
+                    <th>ĐIỂM CHUYÊN CẦN</th>
+                    <th>ĐIỂM 15 PHÚT</th>
+                    <th>ĐIỂM 1 TIẾT</th>
+                    <th>ĐIỂM GIỮA KỲ</th>
+                    <th>ĐIỂM CUỐI KỲ</th>
+                    <th>ĐIỂM TỔNG KẾT</th>
+                </tr>
+            </thead>
+            <tbody id="student-table">
+                <tr>
+                    <td colspan="8" class="no-data">Vui lòng chọn lớp để hiển thị danh sách học sinh</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="update-btn" onclick="saveGrades()">CẬP NHẬT</button>
+    </main>
+
+    <script>
+        const studentsData = {
+            "10A1": [{
+                    id: "101",
+                    name: "Nguyễn Văn A"
+                },
+                {
+                    id: "102",
+                    name: "Trần Thị B"
+                },
+                {
+                    id: "103",
+                    name: "Lê Văn C"
+                }
+            ],
+            "10A2": [{
+                    id: "201",
+                    name: "Phạm Thị D"
+                },
+                {
+                    id: "202",
+                    name: "Hoàng Văn E"
+                }
+            ],
+            "11B1": [{
+                    id: "301",
+                    name: "Bùi Thị F"
+                },
+                {
+                    id: "302",
+                    name: "Đinh Văn G"
+                }
+            ],
+            "12C1": [{
+                    id: "401",
+                    name: "Vũ Thị H"
+                },
+                {
+                    id: "402",
+                    name: "Cao Văn I"
+                }
+            ]
+        };
+
+        function loadStudents() {
+            const classSelected = document.getElementById("class-list").value;
+            const tableBody = document.getElementById("student-table");
+            tableBody.innerHTML = "";
+
+            if (!classSelected) {
+                tableBody.innerHTML =
+                    `<tr><td colspan="8" class="no-data">Vui lòng chọn lớp để hiển thị danh sách học sinh</td></tr>`;
+                return;
+            }
+
+            studentsData[classSelected].forEach(student => {
+                const row = `
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td><input type="number" min="0" max="10"></td>
+                <td><input type="number" min="0" max="10"></td>
+                <td><input type="number" min="0" max="10"></td>
+                <td><input type="number" min="0" max="10"></td>
+                <td><input type="number" min="0" max="10"></td>
+                <td><input type="number" min="0" max="10" disabled></td>
+            </tr>
+        `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function saveGrades() {
+            alert("Đã lưu điểm thành công!");
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

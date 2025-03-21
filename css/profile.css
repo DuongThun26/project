@@ -1,0 +1,155 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo img {
+    width: 60px;
+    height: 60px;
+}
+
+.school-name h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.logout {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Menu */
+nav {
+    background-color: #ddd;
+    padding: 10px 0;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+nav ul li a.active {
+    color: #007bff;
+}
+
+/* Thông tin giáo viên */
+.profile-container {
+    width: 80%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.profile-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.profile-info {
+    width: 60%;
+}
+
+.profile-info p {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.profile-info label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.profile-info input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Ảnh giáo viên */
+.profile-photo {
+    width: 30%;
+    text-align: center;
+}
+
+.profile-photo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.profile-photo button {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-photo a {
+    display: block;
+    margin-top: 5px;
+    text-decoration: none;
+    color: red;
+}
+
+/* Nút lưu */
+.save-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

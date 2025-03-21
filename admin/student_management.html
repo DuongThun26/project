@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Học Sinh</title>
+    <link rel="stylesheet" href="../css/student_management.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <button class="logout">Đăng xuất</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="homeAdmin.html">Trang chủ</a></li>
+            <li><a href="user.html">Người dùng</a></li>
+            <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
+            <li><a href="news.html">Cập nhật tin tức</a></li>
+            <li><a href="student_management.html" class="active">Quản lý học sinh</a></li>
+            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="student-section">
+            <h2>Quản Lý Học Sinh</h2>
+            <div class="filter">
+                <input type="text" id="searchClass" placeholder="Nhập lớp...">
+                <input type="text" id="searchName" placeholder="Nhập tên...">
+                <button id="filterBtn">Lọc</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên</th>
+                        <th>Họ đệm</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Lớp</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="studentList">
+                    <!-- Dữ liệu sẽ được render ở đây -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Form chỉnh sửa -->
+    <div id="studentFormContainer" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="formTitle">Chỉnh Sửa Học Sinh</h2>
+            <input type="hidden" id="studentId">
+            <label>Tên:</label>
+            <input type="text" id="studentName">
+            <label>Họ đệm:</label>
+            <input type="text" id="studentSurname">
+            <label>Ngày sinh:</label>
+            <input type="date" id="studentDob">
+            <label>Giới tính:</label>
+            <select id="studentGender">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>
+            <label>Lớp:</label>
+            <input type="text" id="studentClass">
+            <label>Email:</label>
+            <input type="email" id="studentEmail">
+            <label>Địa chỉ:</label>
+            <input type="text" id="studentAddress">
+            <button id="saveStudentBtn">Lưu</button>
+        </div>
+    </div>
+
+    <script>
+        let students = [{
+                id: 1,
+                name: "Minh",
+                surname: "Nguyễn Văn",
+                dob: "2006-05-12",
+                gender: "Nam",
+                class: "12A1",
+                email: "minh@gmail.com",
+                address: "Hà Nội"
+            },
+            {
+                id: 2,
+                name: "Lan",
+                surname: "Trần Thị",
+                dob: "2006-03-22",
+                gender: "Nữ",
+                class: "12A2",
+                email: "lan@gmail.com",
+                address: "Hải Phòng"
+            }
+        ];
+
+        function renderStudents() {
+            let studentList = document.getElementById("studentList");
+            studentList.innerHTML = "";
+
+            students.forEach(student => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.surname}</td>
+            <td>${student.dob}</td>
+            <td>${student.gender}</td>
+            <td>${student.class}</td>
+            <td>${student.email}</td>
+            <td>${student.address}</td>
+            <td>
+                <button onclick="editStudent(${student.id})">Sửa</button>
+                <button onclick="deleteStudent(${student.id})">Xóa</button>
+            </td>
+        `;
+                studentList.appendChild(row);
+            });
+        }
+
+        function editStudent(id) {
+            let student = students.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById("studentFormContainer").style.display = "block";
+            document.getElementById("studentId").value = student.id;
+            document.getElementById("studentName").value = student.name;
+            document.getElementById("studentSurname").value = student.surname;
+            document.getElementById("studentDob").value = student.dob;
+            document.getElementById("studentGender").value = student.gender;
+            document.getElementById("studentClass").value = student.class;
+            document.getElementById("studentEmail").value = student.email;
+            document.getElementById("studentAddress").value = student.address;
+        }
+
+        function deleteStudent(id) {
+            students = students.filter(s => s.id !== id);
+            renderStudents();
+        }
+
+        document.getElementById("filterBtn").addEventListener("click", function () {
+            let searchClass = document.getElementById("searchClass").value.toLowerCase();
+            let searchName = document.getElementById("searchName").value.toLowerCase();
+
+            let filteredStudents = students.filter(s =>
+                s.class.toLowerCase().includes(searchClass) &&
+                s.name.toLowerCase().includes(searchName)
+            );
+
+            students = filteredStudents;
+            renderStudents();
+        });
+
+        renderStudents();
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

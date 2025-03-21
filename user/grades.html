@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Điểm</title>
+    <link rel="stylesheet" href="../css/grades.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <div class="school-name">
+            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        </div>
+        <button class="logout">Đăng Xuất</button>
+    </header>
+
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="homeUser.html">Trang Chủ</a></li>
+            <li><a href="timetable.html">Thời Khóa Biểu</a></li>
+            <li><a href="grades.html" class="active">Xem Điểm</a></li>
+            <li><a href="profile.html">Thông Tin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <main class="grades-container">
+        <div class="filter">
+            <label for="hocKy">Học kỳ:</label>
+            <select id="hocKy">
+                <option value="1">Học Kỳ 1</option>
+                <option value="2">Học Kỳ 2</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Môn Học</th>
+                    <th>Điểm Chuyên Cần</th>
+                    <th>Điểm 15 Phút</th>
+                    <th>Điểm 1 Tiết</th>
+                    <th>Điểm Giữa Kỳ</th>
+                    <th>Điểm Cuối Kỳ</th>
+                    <th>Điểm Tổng Kết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Toán</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Ngữ Văn</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tiếng Anh</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Vật Lý</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Hóa Học</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Sinh Học</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Lịch Sử</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Địa Lý</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tin Học</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Công Nghệ</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Thể Dục</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Giáo Dục Công Dân</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hocKySelect = document.getElementById("hocKy");
+
+            hocKySelect.addEventListener("change", function () {
+                console.log("Chọn học kỳ: ", hocKySelect.value);
+                // Có thể thêm API để lấy dữ liệu điểm theo học kỳ
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

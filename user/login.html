@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Đăng Nhập</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Tên đăng nhập" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+            </div>
+            <button type="submit">Đăng Nhập</button>
+            <p class="forgot-password"><a href="forgotPassword.html">Quên mật khẩu?</a></p>
+        </form>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "admin" && password === "123456") {
+                alert("Đăng nhập thành công!");
+                window.location.href = "../admin/homeAdmin.html"; // Chuyển hướng sau khi đăng nhập thành công
+            }
+            else if (username === "student" && password === "123456") {
+                alert("Đăng nhập thành công!");
+                window.location.href = "homeUser.html"; // Chuyển hướng sau khi đăng nhập thành công
+            }
+            else if (username === "teacher" && password === "123456") {
+                alert("Đăng nhập thành công!");
+                window.location.href = "../teacher/homeTeacher.html"; // Chuyển hướng sau khi đăng nhập thành công
+            }
+            else {
+                alert("Sai tên đăng nhập hoặc mật khẩu!");
+            }
+        });
+    </script>
+</body>
+
+</html>

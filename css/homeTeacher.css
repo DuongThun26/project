@@ -1,0 +1,133 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo img {
+    width: 60px;
+    height: 60px;
+}
+
+.school-name h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.logout {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Menu */
+nav {
+    background-color: #ddd;
+    padding: 10px 0;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+nav ul li a.active {
+    color: #007bff;
+}
+
+/* Dashboard thông báo */
+.dashboard {
+    width: 80%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications h2 {
+    background: #3498db;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Thông báo chính */
+.main-notice {
+    display: flex;
+    flex-direction: column;
+    background: #dcdcdc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.notice-image {
+    height: 150px;
+    background: #b0b0b0;
+    text-align: center;
+    line-height: 150px;
+}
+
+.notice-content {
+    margin-top: 10px;
+    background: #b0b0b0;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Danh sách thông báo nhỏ */
+.small-notices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.small-notice {
+    display: flex;
+    background: #dcdcdc;
+    padding: 10px;
+    align-items: center;
+}
+
+.small-notice-image {
+    width: 80px;
+    height: 80px;
+    background: #b0b0b0;
+    text-align: center;
+    line-height: 80px;
+    margin-right: 10px;
+}
+
+.small-notice-text {
+    flex: 1;
+}

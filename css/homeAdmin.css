@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f8ff;
+    text-align: center;
+}
+
+header {
+    background-color: #004080;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px;
+}
+
+.logout {
+    background-color: red;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+nav ul {
+    list-style: none;
+    background: #0073e6;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+.active {
+    color: #e9c3c3;
+}
+/* Thống kê */
+.stats-container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.stats-box {
+    background: lightblue;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Biểu đồ */
+.chart-container {
+    width: 60%;
+    margin: auto;
+}
+
+.chart-label {
+    text-align: center;
+    font-style: italic;
+    margin-top: 10px;
+}

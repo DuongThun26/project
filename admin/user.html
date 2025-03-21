@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Người Dùng</title>
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <button class="logout">Đăng xuất</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="homeAdmin.html">Trang chủ</a></li>
+            <li><a href="user.html" class="active">Người dùng</a></li>
+            <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
+            <li><a href="news.html">Cập nhật tin tức</a></li>
+            <li><a href="student_management.html">Quản lý học sinh</a></li>
+            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+        </ul>
+    </nav>
+
+    <!-- Tìm kiếm -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Nhập tên hoặc email...">
+        <button onclick="searchUser()">Tìm Kiếm</button>
+    </div>
+
+    <!-- Bảng danh sách người dùng -->
+    <table>
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Vai trò</th>
+                <th>Tên đăng nhập</th>
+                <th>Mật khẩu</th>
+            </tr>
+        </thead>
+        <tbody id="userTable">
+            <!-- Dữ liệu sẽ được hiển thị tại đây -->
+        </tbody>
+    </table>
+
+    <!-- Nút thêm người dùng -->
+    <button class="add-user-btn" onclick="openAddUserForm()">Thêm người dùng mới</button>
+
+    <!-- Form thêm người dùng -->
+    <div id="addUserForm" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddUserForm()">&times;</span>
+            <h2>Thêm Người Dùng</h2>
+            <input type="text" id="userName" placeholder="Họ và tên">
+            <input type="email" id="userEmail" placeholder="Email">
+            <select id="userRole">
+                <option value="Học sinh">Học sinh</option>
+                <option value="Giáo viên">Giáo viên</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <button onclick="addUser()">Thêm</button>
+        </div>
+    </div>
+    <script>
+        let users = [
+            { id: 1, name: "Nguyễn Văn A", email: "a@gmail.com", role: "Học sinh", username: "a@gmail.com", password: "123456" },
+            { id: 2, name: "Trần Thị B", email: "b@gmail.com", role: "Giáo viên", username: "b@gmail.com", password: "123456" },
+            { id: 3, name: "Lê Văn C", email: "c@gmail.com", role: "Admin", username: "c@gmail.com", password: "123456" }
+        ];
+
+        function displayUsers() {
+            let table = document.getElementById("userTable");
+            table.innerHTML = "";
+            users.forEach(user => {
+                let row = `<tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.username}</td>
+                    <td>${user.password}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        function searchUser() {
+            let searchValue = document.getElementById("searchInput").value.toLowerCase();
+            let filteredUsers = users.filter(user =>
+                user.name.toLowerCase().includes(searchValue) ||
+                user.email.toLowerCase().includes(searchValue)
+            );
+            
+            let table = document.getElementById("userTable");
+            table.innerHTML = "";
+            filteredUsers.forEach(user => {
+                let row = `<tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.username}</td>
+                    <td>${user.password}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        function openAddUserForm() {
+            document.getElementById("addUserForm").style.display = "block";
+        }
+
+        function closeAddUserForm() {
+            document.getElementById("addUserForm").style.display = "none";
+        }
+
+        function addUser() {
+            let name = document.getElementById("userName").value;
+            let email = document.getElementById("userEmail").value;
+            let role = document.getElementById("userRole").value;
+            
+            if (name && email) {
+                users.push({
+                    id: users.length + 1,
+                    name,
+                    email,
+                    role,
+                    username: email,
+                    password: "123456"
+                });
+                closeAddUserForm();
+                displayUsers();
+            } else {
+                alert("Vui lòng nhập đủ thông tin!");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", displayUsers);
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken");
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

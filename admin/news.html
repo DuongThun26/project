@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Tin Tức</title>
+    <link rel="stylesheet" href="../css/news.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <button class="logout">Đăng xuất</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="homeAdmin.html">Trang chủ</a></li>
+            <li><a href="user.html">Người dùng</a></li>
+            <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
+            <li><a href="news.html" class="active">Cập nhật tin tức</a></li>
+            <li><a href="student_management.html">Quản lý học sinh</a></li>
+            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="news-section">
+            <h2>Danh Sách Tin</h2>
+            <button id="addNewsBtn">Thêm Mới</button>
+            <div id="newsList">
+                <!-- Danh sách tin tức sẽ được render ở đây -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Form thêm/sửa tin -->
+    <div id="newsFormContainer" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="formTitle">Thêm Tin Mới</h2>
+            <label>Tiêu đề:</label>
+            <input type="text" id="newsTitle">
+            <label>Nội dung:</label>
+            <textarea id="newsContent"></textarea>
+            <label>Hình ảnh:</label>
+            <input type="file" id="newsImage">
+            <button id="saveNewsBtn">Lưu</button>
+        </div>
+    </div>
+
+    <script>
+        let newsData = [];
+
+        document.getElementById("addNewsBtn").addEventListener("click", function () {
+            document.getElementById("newsFormContainer").style.display = "block";
+            document.getElementById("formTitle").innerText = "Thêm Tin Mới";
+            document.getElementById("newsTitle").value = "";
+            document.getElementById("newsContent").value = "";
+        });
+
+        document.querySelector(".close").addEventListener("click", function () {
+            document.getElementById("newsFormContainer").style.display = "none";
+        });
+
+        document.getElementById("saveNewsBtn").addEventListener("click", function () {
+            let title = document.getElementById("newsTitle").value;
+            let content = document.getElementById("newsContent").value;
+            let image = document.getElementById("newsImage").files[0];
+
+            if (!title || !content) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            let imageURL = image ? URL.createObjectURL(image) : "placeholder.jpg";
+
+            let newsItem = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                image: imageURL
+            };
+
+            newsData.push(newsItem);
+            renderNews();
+            document.getElementById("newsFormContainer").style.display = "none";
+        });
+
+        function renderNews() {
+            let newsList = document.getElementById("newsList");
+            newsList.innerHTML = "";
+
+            newsData.forEach(news => {
+                let div = document.createElement("div");
+                div.classList.add("news-item");
+                div.innerHTML = `
+            <img src="${news.image}" alt="News Image">
+            <div>
+                <h3>${news.title}</h3>
+                <p>${news.content}</p>
+            </div>
+            <div>
+                <button onclick="editNews(${news.id})">Sửa</button>
+                <button onclick="deleteNews(${news.id})">Xóa</button>
+            </div>
+        `;
+                newsList.appendChild(div);
+            });
+        }
+
+        function editNews(id) {
+            let news = newsData.find(n => n.id === id);
+            if (!news) return;
+
+            document.getElementById("newsFormContainer").style.display = "block";
+            document.getElementById("formTitle").innerText = "Chỉnh Sửa Tin";
+            document.getElementById("newsTitle").value = news.title;
+            document.getElementById("newsContent").value = news.content;
+
+            document.getElementById("saveNewsBtn").onclick = function () {
+                news.title = document.getElementById("newsTitle").value;
+                news.content = document.getElementById("newsContent").value;
+                renderNews();
+                document.getElementById("newsFormContainer").style.display = "none";
+            };
+        }
+
+        function deleteNews(id) {
+            newsData = newsData.filter(n => n.id !== id);
+            renderNews();
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

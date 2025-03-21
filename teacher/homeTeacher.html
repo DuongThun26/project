@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Giáo Viên</title>
+    <link rel="stylesheet" href="../css/homeTeacher.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="../image/logo.png" alt="Logo Trường">
+        </div>
+        <div class="school-name">
+            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        </div>
+        <button class="logout">Đăng Xuất</button>
+    </header>
+
+    <!-- Menu -->
+    <nav>
+        <ul>
+            <li><a href="homeTeacher.html" class="active">Trang Chủ</a></li>
+            <li><a href="schedule.html">Lịch Giảng Dạy</a></li>
+            <li><a href="score.html">Nhập Điểm</a></li>
+            <li><a href="teacher_profile.html">Thông Tin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <main class="dashboard">
+        <section class="notifications">
+            <h2>Thông Báo</h2>
+            <div class="main-notice">
+                <div class="notice-image">ẢNH</div>
+                <div class="notice-content">NỘI DUNG</div>
+            </div>
+            <div class="small-notices">
+                <div class="small-notice">
+                    <div class="small-notice-image">ẢNH</div>
+                    <div class="small-notice-text">
+                        <strong>TIÊU ĐỀ</strong>
+                        <p>📅 NGÀY ĐĂNG</p>
+                    </div>
+                </div>
+                <div class="small-notice">
+                    <div class="small-notice-image">ẢNH</div>
+                    <div class="small-notice-text">
+                        <strong>TIÊU ĐỀ</strong>
+                        <p>📅 NGÀY ĐĂNG</p>
+                    </div>
+                </div>
+                <div class="small-notice">
+                    <div class="small-notice-image">ẢNH</div>
+                    <div class="small-notice-text">
+                        <strong>TIÊU ĐỀ</strong>
+                        <p>📅 NGÀY ĐĂNG</p>
+                    </div>
+                </div>
+                <div class="small-notice">
+                    <div class="small-notice-image">ẢNH</div>
+                    <div class="small-notice-text">
+                        <strong>TIÊU ĐỀ</strong>
+                        <p>📅 NGÀY ĐĂNG</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sampleNotices = [{
+                image: "image1.png",
+                title: "Lịch học mới",
+                date: "2025-03-19"
+            },
+            {
+                image: "image2.png",
+                title: "Kỳ thi học kỳ",
+                date: "2025-03-20"
+            },
+            {
+                image: "image3.png",
+                title: "Họp giáo viên",
+                date: "2025-03-22"
+            },
+            {
+                image: "image4.png",
+                title: "Công tác đoàn",
+                date: "2025-03-25"
+            },
+        ];
+
+        // Hiển thị danh sách thông báo
+        document.addEventListener("DOMContentLoaded", function () {
+            const smallNotices = document.querySelector(".small-notices");
+            smallNotices.innerHTML = sampleNotices
+                .map(
+                    (n) => `
+        <div class="small-notice">
+            <div class="small-notice-image"><img src="${n.image}" width="80"></div>
+            <div class="small-notice-text">
+                <strong>${n.title}</strong>
+                <p>📅 ${n.date}</p>
+            </div>
+        </div>
+    `
+                )
+                .join("");
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.querySelector(".logout");
+
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
+
+                    // Chuyển hướng về trang đăng nhập
+                    window.location.href = "../user/login.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
