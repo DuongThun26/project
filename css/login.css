@@ -1,6 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
-    /* background-color: #f4f4f4; */
+    font-family: "Roboto", sans-serif;
     background-image: url("../image/congtruong.jpg");
     background-size: cover;
     display: flex;
@@ -17,6 +16,9 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
+    right: 7px;
+    position: fixed;
+    bottom: 7px;
 }
 
 h2 {

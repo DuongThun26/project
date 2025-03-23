@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập</title>
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -19,7 +22,7 @@
                 <input type="password" id="password" placeholder="Mật khẩu" required>
             </div>
             <button type="submit">Đăng Nhập</button>
-            <p class="forgot-password"><a href="forgotPassword.html">Quên mật khẩu?</a></p>
+            <p class="forgot-password"><a href="forgotPassword.html">Quên mật khẩu? <hr></a></p>
         </form>
     </div>
     <script>
@@ -29,15 +32,15 @@
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            if (username === "admin" && password === "123456") {
+            if (username === "admin@gmail.com" && password === "123456") {
                 alert("Đăng nhập thành công!");
                 window.location.href = "../admin/homeAdmin.html"; // Chuyển hướng sau khi đăng nhập thành công
             }
-            else if (username === "student" && password === "123456") {
+            else if (username === "student@gmail.com" && password === "123456") {
                 alert("Đăng nhập thành công!");
                 window.location.href = "homeUser.html"; // Chuyển hướng sau khi đăng nhập thành công
             }
-            else if (username === "teacher" && password === "123456") {
+            else if (username === "teacher@gmail.com" && password === "123456") {
                 alert("Đăng nhập thành công!");
                 window.location.href = "../teacher/homeTeacher.html"; // Chuyển hướng sau khi đăng nhập thành công
             }

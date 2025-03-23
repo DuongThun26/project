@@ -20,7 +20,11 @@ header {
 }
 
 .logo img {
-    width: 50px;
+    width: 90px;
+}
+
+.school-name h1 {
+    margin-top: 10px;
 }
 
 .logout {

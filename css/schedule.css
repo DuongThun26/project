@@ -18,16 +18,18 @@ header {
     background-color: #007bff;
     padding: 10px 20px;
     color: white;
+    text-align: center;
 }
 
 .logo img {
-    width: 60px;
-    height: 60px;
+    width: 85px;
+    height: 85px;
 }
 
-.school-name {
+.school-name h1 {
     font-size: 35px;
     text-transform: uppercase;
+    margin-top: 15px;
 }
 
 .logout {
@@ -126,7 +128,7 @@ th {
 .filters button {
     padding: 5px 15px;
     margin-left: 15px;
-    background-color: rgb(78, 78, 239);
+    background-color: #007BFF;
     color: white;
     border-radius: 5px;
     border: none;

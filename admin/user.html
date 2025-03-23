@@ -15,7 +15,10 @@
         <div class="logo">
             <img src="../image/logo.png" alt="Logo Trường">
         </div>
-        <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        <div class="school-name">
+            <h3>SỞ GIÁO DỤC VÀ ĐÀO TẠO TỈNH BẮC GIANG</h3>
+            <h1>TRƯỜNG TRUNG HỌC PHỔ THÔNG TÂN YÊN SỐ 2</h1>
+        </div>
         <button class="logout">Đăng xuất</button>
     </header>
 
@@ -46,10 +49,12 @@
                 <th>Vai trò</th>
                 <th>Tên đăng nhập</th>
                 <th>Mật khẩu</th>
+                <th>Lớp học</th> <!-- Cột mới -->
+                <th>Chuyên môn</th> <!-- Cột mới -->
             </tr>
         </thead>
         <tbody id="userTable">
-            <!-- Dữ liệu sẽ được hiển thị tại đây -->
+            <!-- Dữ liệu sẽ được thêm vào đây -->
         </tbody>
     </table>
 
@@ -64,12 +69,12 @@
             <span class="close" onclick="closeAddUserForm()">&times;</span>
             <h2>Thêm Người Dùng</h2>
             <input type="text" id="userName" placeholder="Họ và tên">
-            <input type="email" id="userEmail" placeholder="Email">
             <select id="userRole">
                 <option value="Học sinh">Học sinh</option>
-                <option value="Giáo viên">Giáo viên</option>
+                <option value="Giáo viên" selected>Giáo viên</option>
                 <option value="Admin">Admin</option>
             </select>
+            <input type="text" id="extraField" placeholder="Nhập thông tin...">
             <button onclick="addUser()">Thêm</button>
         </div>
     </div>
@@ -80,7 +85,8 @@
                 email: "a@gmail.com",
                 role: "Học sinh",
                 username: "a@gmail.com",
-                password: "123456"
+                password: "123456",
+                class: "12A1"
             },
             {
                 id: 2,
@@ -88,7 +94,8 @@
                 email: "b@gmail.com",
                 role: "Giáo viên",
                 username: "b@gmail.com",
-                password: "123456"
+                password: "123456",
+                subject: "Ngữ Văn"
             },
             {
                 id: 3,
@@ -103,15 +110,21 @@
         function displayUsers() {
             let table = document.getElementById("userTable");
             table.innerHTML = "";
+
             users.forEach(user => {
+                let classInfo = user.class || ""; // Nếu không có giá trị thì để trống
+                let subjectInfo = user.subject || "";
+
                 let row = `<tr>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                </tr>`;
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>${user.username}</td>
+            <td>${user.password}</td>
+            <td>${user.role === "Học sinh" ? classInfo : ""}</td> <!-- Hiển thị lớp học -->
+            <td>${user.role === "Giáo viên" ? subjectInfo : ""}</td> <!-- Hiển thị chuyên môn -->
+        </tr>`;
                 table.innerHTML += row;
             });
         }
@@ -122,18 +135,19 @@
                 user.name.toLowerCase().includes(searchValue) ||
                 user.email.toLowerCase().includes(searchValue)
             );
-
             let table = document.getElementById("userTable");
             table.innerHTML = "";
             filteredUsers.forEach(user => {
+                let extraInfo = user.class || user.subject || "Admin";
                 let row = `<tr>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                </tr>`;
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>${extraInfo}</td>
+            <td>${user.username}</td>
+            <td>${user.password}</td>
+        </tr>`;
                 table.innerHTML += row;
             });
         }
@@ -146,26 +160,55 @@
             document.getElementById("addUserForm").style.display = "none";
         }
 
-        function addUser() {
-            let name = document.getElementById("userName").value;
-            let email = document.getElementById("userEmail").value;
-            let role = document.getElementById("userRole").value;
-
-            if (name && email) {
-                users.push({
-                    id: users.length + 1,
-                    name,
-                    email,
-                    role,
-                    username: email,
-                    password: "123456"
-                });
-                closeAddUserForm();
-                displayUsers();
-            } else {
-                alert("Vui lòng nhập đủ thông tin!");
-            }
+        function removeAccents(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
         }
+
+        function addUser() {
+            let id = users.length + 1;
+            let name = document.getElementById("userName").value;
+            let role = document.getElementById("userRole").value;
+            let extraField = document.getElementById("extraField").value.trim();
+            if (role === "Admin") {
+                document.getElementById("extraField").style.display = "none";
+            } else if (!name || !extraField) {
+                alert("Vui lòng nhập đủ thông tin!");
+                return;
+            }
+
+            let cleanName = removeAccents(name);
+            let nameParts = cleanName.split(" ");
+            let lastName = nameParts[nameParts.length - 1].toLowerCase();
+            let middleInitials = nameParts.slice(0, -1).map(n => n[0]).join("").toLowerCase();
+            let email = `${lastName}${middleInitials}@ty2.edu.vn`;
+
+            let newUser = {
+                id,
+                name,
+                email,
+                role,
+                username: email,
+                password: "123456"
+            };
+
+            if (role === "Học sinh") {
+                newUser.class = extraField; // Lớp học
+            } else if (role === "Giáo viên") {
+                newUser.subject = extraField; // Chuyên môn
+            }
+
+            users.push(newUser);
+            closeAddUserForm();
+            displayUsers();
+        }
+
+
+
+        document.getElementById("userRole").addEventListener("change", function () {
+            let role = this.value;
+            document.getElementById("extraField").placeholder = role === "Học sinh" ? "Nhập lớp học" :
+                "Nhập môn dạy";
+        });
 
         document.addEventListener("DOMContentLoaded", displayUsers);
         document.addEventListener("DOMContentLoaded", function () {
@@ -178,6 +221,20 @@
                     window.location.href = "../user/login.html";
                 }
             });
+        });
+        document.getElementById("userRole").addEventListener("change", function () {
+            let role = this.value;
+            let extraField = document.getElementById("extraField");
+
+            if (role === "Học sinh") {
+                extraField.placeholder = "Nhập lớp học";
+                extraField.style.display = "block"; // Hiện trường nhập
+            } else if (role === "Giáo viên") {
+                extraField.placeholder = "Nhập môn dạy";
+                extraField.style.display = "block"; // Hiện trường nhập
+            } else {
+                extraField.style.display = "none"; // Ẩn trường nhập nếu là Admin
+            }
         });
 
         function importCSV() {
@@ -192,28 +249,32 @@
             let reader = new FileReader();
             reader.onload = function (event) {
                 let text = event.target.result;
-                let rows = text.split("\n");
+                let rows = text.split("\n").map(row => row.trim()).filter(row => row !== "");
 
                 rows.forEach((row, index) => {
                     if (index === 0) return; // Bỏ qua dòng tiêu đề
 
-                    let columns = row.split(",");
-                    if (columns.length < 3) return; // Bỏ qua nếu không đủ dữ liệu
+                    let columns = row.split(",").map(col => col.trim());
+                    if (columns.length < 4) return; // Đảm bảo có đủ cột dữ liệu
 
-                    let name = columns[0].trim();
-                    let email = columns[1].trim();
-                    let role = columns[2].trim();
+                    let name = columns[0];
+                    let role = columns[1];
+                    let classInfo = role === "Học sinh" ? columns[2] : "";
+                    let subjectInfo = role === "Giáo viên" ? columns[3] : "";
 
-                    if (name && email && role) {
-                        users.push({
-                            id: users.length + 1,
-                            name,
-                            email,
-                            role,
-                            username: email,
-                            password: "123456" // Mật khẩu mặc định
-                        });
-                    }
+                    let email = generateEmail(name);
+                    let newUser = {
+                        id: users.length + 1,
+                        name,
+                        email,
+                        role,
+                        username: email,
+                        password: "123456",
+                        class: classInfo,
+                        subject: subjectInfo
+                    };
+
+                    users.push(newUser);
                 });
 
                 displayUsers();
@@ -221,6 +282,14 @@
             };
 
             reader.readAsText(file);
+        }
+
+        function generateEmail(name) {
+            let cleanName = removeAccents(name);
+            let nameParts = cleanName.split(" ");
+            let lastName = nameParts[nameParts.length - 1].toLowerCase();
+            let middleInitials = nameParts.slice(0, -1).map(n => n[0]).join("").toLowerCase();
+            return `${lastName}${middleInitials}@ty2.edu.vn`;
         }
     </script>
 </body>
