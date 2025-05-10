@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ Admin</title>
     <link rel="stylesheet" href="../css/homeAdmin.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -25,11 +24,10 @@
     <nav>
         <ul>
             <li><a href="homeAdmin.html" class="active">Trang chủ</a></li>
-            <li><a href="user.html">Người dùng</a></li>
             <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
             <li><a href="news.html">Cập nhật tin tức</a></li>
-            <li><a href="student_management.html">Quản lý học sinh</a></li>
-            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+            <li><a href="studentManagement.html">Quản lý học sinh</a></li>
+            <li><a href="teacherManagement.html">Quản lý giáo viên</a></li>
             <li><a href="changePassword.html">Thay đổi mật khẩu</a></li>
         </ul>
     </nav>
@@ -42,12 +40,33 @@
             <p><strong>Số lượng học sinh:</strong> <span id="total-students">...</span></p>
         </div>
     </div>
+    <!-- Thống kê học lực -->
+    <div class="filter-section">
+        <h2>THỐNG KÊ HỌC LỰC THEO KHỐI</h2>
 
-    <!-- Biểu đồ -->
-    <div class="chart-container">
-        <canvas id="studentChart"></canvas>
-        <p class="chart-label">BIỂU ĐỒ: THỐNG KÊ SỐ LƯỢNG HỌC SINH THEO KHỐI</p>
+        <label for="gradeSelect">Chọn khối:</label>
+        <select id="gradeSelect">
+            <option value="10">Khối 10</option>
+            <option value="11">Khối 11</option>
+            <option value="12">Khối 12</option>
+        </select>
+
+        <label for="performanceSelect">Chọn học lực:</label>
+        <select id="performanceSelect">
+            <option value="Gioi">Giỏi</option>
+            <option value="Kha">Khá</option>
+            <option value="TrungBinh">Trung bình</option>
+            <option value="Yeu">Yếu</option>
+        </select>
+
+        <button id="filterBtn">Lọc</button>
+
+        <div class="result-container">
+            <h3>Kết quả:</h3>
+            <ul id="studentList"></ul>
+        </div>
     </div>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -58,26 +77,65 @@
             // Hiển thị số liệu
             document.getElementById("total-teachers").innerText = totalTeachers;
             document.getElementById("total-students").innerText = totalStudents;
+        });
 
-            // Dữ liệu học sinh theo khối
-            const ctx = document.getElementById("studentChart").getContext("2d");
-            const studentChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: ["Khối 10", "Khối 11", "Khối 12"],
-                    datasets: [{
-                        label: "Số lượng học sinh",
-                        data: [180, 200, 120],
-                        backgroundColor: ["#3498db", "#2980b9", "#1f618d"]
-                    }]
+        document.addEventListener("DOMContentLoaded", function () {
+            const totalTeachers = 50;
+            const totalStudents = 500;
+
+            document.getElementById("total-teachers").innerText = totalTeachers;
+            document.getElementById("total-students").innerText = totalStudents;
+
+            // Dữ liệu học sinh giả lập
+            const studentsData = {
+                10: {
+                    Gioi: ["Nguyễn Văn A", "Trần Thị B"],
+                    Kha: ["Lê Văn C", "Phạm Thị D"],
+                    TrungBinh: ["Hoàng Văn E"],
+                    Yeu: ["Đào Thị F"]
                 },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                11: {
+                    Gioi: ["Vũ Văn G", "Ngô Thị H"],
+                    Kha: ["Đinh Văn I"],
+                    TrungBinh: ["Tạ Thị J"],
+                    Yeu: ["Lý Văn K"]
+                },
+                12: {
+                    Gioi: ["Phan Thị L"],
+                    Kha: ["Bùi Văn M", "Trịnh Thị N"],
+                    TrungBinh: ["Chu Văn O"],
+                    Yeu: ["Đặng Thị P"]
+                }
+            };
+
+            // Xử lý lọc học sinh theo học lực
+            document.getElementById("filterBtn").addEventListener("click", function () {
+                const grade = document.getElementById("gradeSelect").value;
+                const level = document.getElementById("performanceSelect").value;
+                const resultList = document.getElementById("studentList");
+                resultList.innerHTML = ""; // Clear danh sách cũ
+
+                const students = studentsData[grade][level];
+
+                if (students && students.length > 0) {
+                    students.forEach(name => {
+                        const li = document.createElement("li");
+                        li.textContent = name;
+                        resultList.appendChild(li);
+                    });
+                } else {
+                    resultList.innerHTML = "<li>Không có học sinh phù hợp.</li>";
+                }
+            });
+
+            // Đăng xuất
+            const logoutButton = document.querySelector(".logout");
+            logoutButton.addEventListener("click", function () {
+                const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+                if (confirmLogout) {
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userToken");
+                    window.location.href = "../user/login.html";
                 }
             });
         });
@@ -87,11 +145,8 @@
             logoutButton.addEventListener("click", function () {
                 const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
                 if (confirmLogout) {
-                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
                     localStorage.removeItem("userRole");
-                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
-
-                    // Chuyển hướng về trang đăng nhập
+                    localStorage.removeItem("userToken");
                     window.location.href = "../user/login.html";
                 }
             });

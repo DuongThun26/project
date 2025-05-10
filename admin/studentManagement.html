@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Học Sinh</title>
-    <link rel="stylesheet" href="../css/student_management.css">
+    <link rel="stylesheet" href="../css/studentManagement.css">
 </head>
 
 <body>
@@ -23,11 +23,10 @@
     <nav>
         <ul>
             <li><a href="homeAdmin.html">Trang chủ</a></li>
-            <li><a href="user.html">Người dùng</a></li>
             <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
             <li><a href="news.html">Cập nhật tin tức</a></li>
-            <li><a href="student_management.html" class="active">Quản lý học sinh</a></li>
-            <li><a href="teacher_management.html">Quản lý giáo viên</a></li>
+            <li><a href="studentManagement.html" class="active">Quản lý học sinh</a></li>
+            <li><a href="teacherManagement.html">Quản lý giáo viên</a></li>
         </ul>
     </nav>
 
@@ -58,6 +57,9 @@
                 </tbody>
             </table>
         </section>
+        <button class="add-user-btn" onclick="openAddUserForm()">Thêm người dùng mới</button>
+        <input type="file" id="csvFileInput" accept=".csv">
+        <button onclick="importCSV()" class="btnNhap">Nhập từ CSV</button>
     </main>
 
     <!-- Form chỉnh sửa -->
@@ -70,9 +72,9 @@
             <label>Họ đệm: <input type="text" id="studentSurname"></label>
             <label>Ngày sinh: <input type="date" id="studentDob"></label>
             <label>Giới tính: <select id="studentGender">
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-            </select></label>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select></label>
             <label>Lớp: <input type="text" id="studentClass"></label>
             <label>Email: <input type="email" id="studentEmail"></label>
             <label>Địa chỉ: <input type="text" id="studentAddress"></label>

@@ -84,3 +84,26 @@ button:hover {
     font-style: italic;
     margin-top: 10px;
 }
+
+.filter-section {
+    background-color: #f3f3f3;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.filter-section select,
+.filter-section button {
+    margin: 10px 10px 10px 0;
+    padding: 5px 10px;
+}
+
+.result-container {
+    margin-top: 15px;
+}
+
+.result-container ul {
+    padding-left: 20px;
+    list-style: disc;
+}
+

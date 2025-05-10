@@ -123,17 +123,24 @@ input[type="number"] {
     border-radius: 5px;
 }
 
-.update-btn {
-    display: block;
-    margin: 20px auto;
+.update-btn, .export-btn{
+    margin: 20px 5px;
     padding: 10px 15px;
     background: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    min-width: 150px;
 }
 
+.group-btn {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
 .no-data {
     text-align: center;
     font-style: italic;

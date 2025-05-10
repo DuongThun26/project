@@ -28,7 +28,7 @@
             <li><a href="homeTeacher.html">Trang Chủ</a></li>
             <li><a href="schedule.html">Lịch Giảng Dạy</a></li>
             <li><a href="score.html" class="active">Nhập Điểm</a></li>
-            <li><a href="teacher_profile.html">Thông Tin</a></li>
+            <li><a href="teacherProfile.html">Thông Tin</a></li>
         </ul>
     </nav>
 
@@ -65,52 +65,56 @@
                 </tr>
             </tbody>
         </table>
-        <button class="update-btn" onclick="saveGrades()">CẬP NHẬT</button>
+        <div class="group-btn">
+            <button class="update-btn" onclick="saveGrades()">CẬP NHẬT</button>
+            <button class="export-btn" onclick="exportToExcel()">Xuất File Điểm</button>
+        </div>
     </main>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         const studentsData = {
             "10A1": [{
-                    id: "101",
-                    name: "Nguyễn Văn A"
-                },
-                {
-                    id: "102",
-                    name: "Trần Thị B"
-                },
-                {
-                    id: "103",
-                    name: "Lê Văn C"
-                }
-            ],
+                id: "101",
+                name: "Nguyễn Văn A"
+            }, {
+                id: "102",
+                name: "Trần Thị B"
+            }, {
+                id: "103",
+                name: "Lê Văn C"
+            }],
             "10A2": [{
-                    id: "201",
-                    name: "Phạm Thị D"
-                },
-                {
-                    id: "202",
-                    name: "Hoàng Văn E"
-                }
-            ],
+                id: "201",
+                name: "Phạm Thị D"
+            }, {
+                id: "202",
+                name: "Hoàng Văn E"
+            }],
             "11B1": [{
-                    id: "301",
-                    name: "Bùi Thị F"
-                },
-                {
-                    id: "302",
-                    name: "Đinh Văn G"
-                }
-            ],
+                id: "301",
+                name: "Bùi Thị F"
+            }, {
+                id: "302",
+                name: "Đinh Văn G"
+            }],
             "12C1": [{
-                    id: "401",
-                    name: "Vũ Thị H"
-                },
-                {
-                    id: "402",
-                    name: "Cao Văn I"
-                }
-            ]
+                id: "401",
+                name: "Vũ Thị H"
+            }, {
+                id: "402",
+                name: "Cao Văn I"
+            }]
         };
+
+        function calculateFinalScore(row) {
+            const inputs = row.querySelectorAll("input:not(:last-child)"); // Lấy tất cả input trừ điểm tổng kết
+            const scores = Array.from(inputs).map(input => parseFloat(input.value) || 0);
+            const finalScore = (scores[0] * 1 + scores[1] * 1 + scores[2] * 2 + scores[3] * 2 + scores[4] * 3) / 9;
+            const finalScoreInput = row.querySelector("td:last-child input");
+            if (finalScoreInput) {
+                finalScoreInput.value = finalScore.toFixed(2); // Cập nhật giá trị vào ô điểm tổng kết
+            }
+        }
 
         function loadStudents() {
             const classSelected = document.getElementById("class-list").value;
@@ -125,35 +129,91 @@
 
             studentsData[classSelected].forEach(student => {
                 const row = `
-            <tr>
-                <td>${student.id}</td>
-                <td>${student.name}</td>
-                <td><input type="number" min="0" max="10"></td>
-                <td><input type="number" min="0" max="10"></td>
-                <td><input type="number" min="0" max="10"></td>
-                <td><input type="number" min="0" max="10"></td>
-                <td><input type="number" min="0" max="10"></td>
-                <td><input type="number" min="0" max="10" disabled></td>
-            </tr>
-        `;
+                    <tr>
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td><input type="number" min="0" max="10" step="0.1"></td>
+                        <td><input type="number" min="0" max="10" step="0.1"></td>
+                        <td><input type="number" min="0" max="10" step="0.1"></td>
+                        <td><input type="number" min="0" max="10" step="0.1"></td>
+                        <td><input type="number" min="0" max="10" step="0.1"></td>
+                        <td><input type="number" min="0" max="10" disabled></td>
+                    </tr>
+                `;
                 tableBody.innerHTML += row;
+            });
+
+            // Thêm sự kiện input cho tất cả các ô nhập điểm
+            const rows = tableBody.querySelectorAll("tr");
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll("input:not(:last-child)");
+                inputs.forEach(input => {
+                    input.addEventListener("input", () => {
+                        calculateFinalScore(row); // Gọi hàm tính điểm tổng kết ngay khi nhập
+                    });
+                });
             });
         }
 
         function saveGrades() {
-            alert("Đã lưu điểm thành công!");
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            const logoutButton = document.querySelector(".logout");
+            const rows = document.querySelectorAll("#student-table tr");
+            let isValid = true;
 
-            logoutButton.addEventListener("click", function () {
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll("input:not(:last-child)");
+                inputs.forEach(input => {
+                    const value = parseFloat(input.value);
+                    if (isNaN(value) || value < 0 || value > 10) {
+                        isValid = false;
+                        input.classList.add("error"); // Thêm class error
+                    } else {
+                        input.classList.remove("error"); // Xóa class error
+                    }
+                });
+            });
+
+            if (isValid) {
+                alert("Đã lưu điểm thành công!");
+            } else {
+                alert("Vui lòng kiểm tra lại các điểm nhập vào (0-10)!");
+            }
+        }
+
+        function exportToExcel() {
+            const classSelected = document.getElementById("class-list").value;
+            if (!classSelected) {
+                alert("Vui lòng chọn lớp trước khi xuất file!");
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+            const wsData = [
+                ["MÃ", "HỌ VÀ TÊN", "ĐIỂM CHUYÊN CẦN", "ĐIỂM 15 PHÚT", "ĐIỂM 1 TIẾT", "ĐIỂM GIỮA KỲ",
+                    "ĐIỂM CUỐI KỲ", "ĐIỂM TỔNG KẾT"
+                ]
+            ];
+
+            document.querySelectorAll("#student-table tr").forEach(row => {
+                const rowData = [];
+                row.querySelectorAll("td").forEach(cell => {
+                    const input = cell.querySelector("input");
+                    rowData.push(input ? input.value || "" : cell.innerText);
+                });
+                wsData.push(rowData);
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            XLSX.utils.book_append_sheet(wb, ws, classSelected);
+            XLSX.writeFile(wb, `Diem_${classSelected}.xlsx`);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const logoutButton = document.querySelector(".logout");
+            logoutButton.addEventListener("click", () => {
                 const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
                 if (confirmLogout) {
-                    // Xóa dữ liệu đăng nhập (ví dụ: LocalStorage)
                     localStorage.removeItem("userRole");
-                    localStorage.removeItem("userToken"); // Nếu có token lưu trữ
-
-                    // Chuyển hướng về trang đăng nhập
+                    localStorage.removeItem("userToken");
                     window.location.href = "../user/login.html";
                 }
             });

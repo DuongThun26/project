@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông Tin Giáo Viên</title>
-    <link rel="stylesheet" href="../css/teacher_profile.css">
+    <title>Thông Tin Cá Nhân</title>
+    <link rel="stylesheet" href="../css/profileStudent.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -21,47 +21,42 @@
         </div>
         <button class="logout">Đăng Xuất</button>
     </header>
-
     <!-- Menu -->
     <nav>
         <ul>
-            <li><a href="homeTeacher.html">Trang Chủ</a></li>
-            <li><a href="schedule.html">Lịch Giảng Dạy</a></li>
-            <li><a href="score.html">Nhập Điểm</a></li>
-            <li><a href="teacher_profile.html" class="active">Thông Tin</a></li>
+            <li><a href="homeStudent.html">Trang Chủ</a></li>
+            <li><a href="timetable.html">Thời Khóa Biểu</a></li>
+            <li><a href="grades.html">Xem Điểm</a></li>
+            <li><a href="profileStudent.html" class="active">Thông Tin</a></li>
         </ul>
     </nav>
 
-    <!-- Thông tin giáo viên -->
-    <div class="profile-container">
-        <div class="profile-header">
-            <h2>HỒ SƠ CỦA TÔI</h2>
-        </div>
+    <!-- Nội dung chính -->
+    <main class="profile-container">
+        <h2>Hồ Sơ Của Tôi</h2>
         <div class="profile-content">
             <div class="profile-info">
-                <p><strong>Mã giáo viên:</strong> <span id="teacher-id">226</span></p>
-                <p><strong>Họ và tên:</strong> <span id="teacher-name">Dương Văn Thuận</span></p>
-                <p><strong>Ngày sinh:</strong> <span id="dob">26/06/2004</span></p>
-                <p><strong>Giới tính:</strong> <span id="gender">Nam</span></p>
-                <p><strong>Email:</strong> <span id="email">ThuanDV226.Ty2@stu.edu.vn</span></p>
-                <p><strong>Chuyên môn:</strong> <span id="subject">Toán học</span></p>
-                <label for="address">Địa chỉ:</label>
-                <input type="text" id="address" placeholder="Nhập địa chỉ">
-                <label for="phone">Số điện thoại:</label>
-                <input type="text" id="phone" placeholder="Nhập số điện thoại">
+                <p><strong>Mã học sinh:</strong> 226</p>
+                <p><strong>Họ và tên:</strong> Dương Văn Thuận</p>
+                <p><strong>Ngày sinh:</strong> 26/08/2004</p>
+                <p><strong>Giới tính:</strong> Nam</p>
+                <p><strong>Email:</strong> ThuanDV226.TY2@edu.vn</p>
+                <p><strong>Lớp:</strong> 12A2</p>
+                <p><strong>Địa chỉ:</strong> <input type="text" id="address" value=""></p>
+                <p><strong>Số điện thoại:</strong> <input type="text" id="phone" value=""></p>
             </div>
             <div class="profile-photo">
-                <img id="avatar" src="default_avatar.png" alt="Ảnh giáo viên">
+                <img id="avatar" src="avatar.png" alt="Ảnh đại diện">
                 <input type="file" id="upload" accept="image/*">
-                <button onclick="updatePhoto()">Cập nhật ảnh</button>
-                <a href="changePassword.html">Thay đổi mật khẩu</a>
+                <button onclick="uploadAvatar()">Cập nhật ảnh</button>
+                <a href="../user/changePassword.html">Thay đổi mật khẩu</a>
             </div>
         </div>
         <button class="save-btn" onclick="saveProfile()">Lưu</button>
-    </div>
+    </main>
 
     <script>
-        function updatePhoto() {
+        function uploadAvatar() {
             const fileInput = document.getElementById("upload");
             const avatar = document.getElementById("avatar");
 
@@ -101,7 +96,7 @@
                     localStorage.removeItem("userToken"); // Nếu có token lưu trữ
 
                     // Chuyển hướng về trang đăng nhập
-                    window.location.href = "../user/login.html";
+                    window.location.href = "login.html";
                 }
             });
         });

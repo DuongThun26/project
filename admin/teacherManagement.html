@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Giáo Viên</title>
-    <link rel="stylesheet" href="../css/teacher_management.css">
+    <link rel="stylesheet" href="../css/teacherManagement.css">
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 </head>
 
 <body>
@@ -23,11 +24,10 @@
     <nav>
         <ul>
             <li><a href="homeAdmin.html">Trang chủ</a></li>
-            <li><a href="user.html">Người dùng</a></li>
             <li><a href="addSchedule.html">Cập nhật thời khóa biểu</a></li>
             <li><a href="news.html">Cập nhật tin tức</a></li>
-            <li><a href="student_management.html">Quản lý học sinh</a></li>
-            <li><a href="teacher_management.html" class="active">Quản lý giáo viên</a></li>
+            <li><a href="studentManagement.html">Quản lý học sinh</a></li>
+            <li><a href="teacherManagement.html" class="active">Quản lý giáo viên</a></li>
         </ul>
     </nav>
 
@@ -58,6 +58,25 @@
                 </tbody>
             </table>
         </section>
+        
+        <button class="add-user-btn" onclick="openAddUserForm()">Thêm người dùng mới</button>
+        <input type="file" id="csvFileInput" accept=".csv">
+        <button onclick="importCSV()" class="btnNhap">Nhập từ CSV</button>
+
+        <div id="addUserForm" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAddUserForm()">&times;</span>
+                <h2>Thêm Người Dùng</h2>
+                <input type="text" id="userName" placeholder="Họ và tên">
+                <select id="userRole">
+                    <option value="Học sinh">Học sinh</option>
+                    <option value="Giáo viên" selected>Giáo viên</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <input type="text" id="extraField" placeholder="Nhập thông tin...">
+                <button onclick="addUser()">Thêm</button>
+            </div>
+        </div>
     </main>
 
     <!-- Form chỉnh sửa giáo viên -->
